@@ -1,0 +1,33 @@
+<head>
+    <script>
+        class employee{
+            constructor(name,age,salary){
+                this.empname = name;
+                this.empage= age;
+                this.empsalary = salary;
+                console.log("constructor called")
+            }
+            info(){
+                document.write(`<h3>Employee class </h3>
+                    Name : ${this.empname}<br>
+                    Age : ${this.empage}<br>
+                    Salary : ${this.empsalary}`)
+            }
+        }
+        class manager extends employee {
+            info(){
+                let ta = 10000;
+                let pa = 30000;
+                let totalsalary =  this.empsalary + ta + pa;
+                document.write(`<h3> Manager salary </h3>
+                Name : ${this.empname}<br>
+                Age:${this.empage}<br>
+                Salary : ${totalsalary}`)
+            }
+        }
+        let a = new manager("Adfar",25,50000)
+        let b = new employee("Sakshi",24,100000)
+        a.info()
+        b.info()
+    </script>
+</head>

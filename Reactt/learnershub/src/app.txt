@@ -621,3 +621,142 @@ export default function App() {
   )
 }
 export {FirstName,LastName}
+
+
+
+import React, { useCallback } from 'react'
+import { useState } from 'react'
+const x = new Set()
+export default function App() {
+  const [count,setCount] = useState(0)
+  const [number,setNumber] = useState(0)
+  const incrementCounter = useCallback(()=>{
+     setCount(count + 1)
+  },[count])
+  const decrementCounter = useCallback(()=>{
+    setCount(count - 1)
+ },[count])
+ const incrementNumber = useCallback(()=>{
+  setNumber(number + 1)
+ },[number])
+ x.add(incrementCounter)
+ x.add(decrementCounter)
+ x.add(incrementNumber)
+ alert(x.size)
+  return (
+    <div>
+      count : {count} 
+      <button onClick={incrementCounter}>Increment Counter</button>
+      <button onClick={decrementCounter}>Decrement Counter</button>
+      <button onClick={incrementNumber}>Increment Number : {number}</button>
+    </div>
+  )
+}
+
+
+import React, { Component } from 'react'
+const Articles = [
+    {
+      status: "ok",
+      totalResults: 4,
+      articles: [
+        {
+          source: { id: null, name: "Janta Ka Reporter" },
+          author: "JKR Staff",
+          title:
+            "What Virat Kohli, Karan Johar, Alia Bhatt said after KL Rahul ties knot with Athiya Shetty; Suniel Shetty can't hide his excitement on becoming father-in-law - Janta Ka Reporter",
+          description:
+            "Indian cricketer KL Rahul and Athiya Shetty got married on Monday ending the weeks of speculations over their wedding plans. Both KL Rahul and Athiya took to their social media pages to share an identical statement. Among those wishing them on their wedding w…",
+          url: "https://www.jantakareporter.com/entertainment/what-virat-kohli-karan-johar-alia-bhatt-said-after-kl-rahul-ties-knot-with-athiya-shetty-suniel-shetty-cant-hide-his-excitement-on-becoming-father-in-law/404220/",
+          urlToImage:
+            "https://www.jantakareporter.com/wp-content/uploads/2023/01/327039396_581063346786549_8076711532021620479_n.webp",
+          publishedAt: "2023-01-23T22:59:13Z",
+          content:
+            "Indian cricketer KL Rahul and Athiya Shetty got married on Monday ending the weeks of speculations over their wedding plans. Both KL Rahul and Athiya took to their social media pages to share an iden… [+1638 chars]",
+        },
+        {
+          source: { id: null, name: "Cricbuzz" },
+          author: null,
+          title:
+            "MI Cape Town vs Pretoria Capitals, 20th Match, SA20, 2023 - Cricbuzz",
+          description:
+            "Follow MI Cape Town vs Pretoria Capitals, 20th Match, Jan 23, SA20, 2023 with live Cricket score, ball by ball commentary updates on Cricbuzz",
+          url: "https://www.cricbuzz.com/live-cricket-scores/57846/mict-vs-pc-20th-match-sa20-2023",
+          urlToImage: null,
+          publishedAt: "2023-01-23T16:16:46Z",
+          content:
+            "That's all from this one. We'll be there tomorrow afternoon to bring you the action of the Sunrisers Eastern Cape and the Paarl Royals. Join us then, bye for now!\r\nWayne Parnell: Really nice game to … [+3830 chars]",
+        },
+        {
+          source: { id: null, name: "India.com" },
+          author: "Zee Media Bureau",
+          title:
+            "LIVE Updates | IND VS NZ, 3rd ODI Cricket Match Live Score: Rahul Dravid reveals why Virat Kohli and - Zee News",
+          description:
+            "LIVE Updates | IND VS NZ, 3rd ODI Cricket Match Live Score: Rahul Dravid reveals why Virat Kohli and",
+          url: "https://zeenews.india.com/cricket/live-updates/live-cricket-score-ind-vs-nz-3rd-odi-2023-cricket-match-today-india-vs-new-zealand-cricket-live-score-and-updates-holkar-stadium-indore-rohit-sharma-tom-latham-2564892",
+          urlToImage:
+            "https://english.cdn.zeenews.com/sites/default/files/2023/01/23/1144827-indnz3rd.jpg",
+          publishedAt: "2023-01-23T15:31:46Z",
+          content: null,
+        },
+        {
+          source: { id: null, name: "Cricbuzz" },
+          author: null,
+          title:
+            "Gulf Giants vs Sharjah Warriors, 14th Match, International League T20, 2023 - Cricbuzz",
+          description:
+            "Follow Gulf Giants vs Sharjah Warriors, 14th Match, Jan 23, International League T20, 2023 with live Cricket score, ball by ball commentary updates on Cricbuzz",
+          url: "https://www.cricbuzz.com/cricket-commentary/59076/gg-vs-sw-14th-match-international-league-t20-2023",
+          urlToImage: null,
+          publishedAt: "2023-01-23T14:05:56Z",
+          content:
+            "21:54 local, 17:54 GMT, 23:24 IST: After losing 6 wickets inside 8 overs chasing 152, the Giants' chances were as good as over, but for a couple of big hitters in the form of Lynn and Wiese. Although… [+371 chars]",
+        },
+      ],
+    },
+  ];
+  
+export default class NewsItem extends Component {
+  render() {
+    constructor(props){
+        super(props)
+        this.state={
+           artciles : this.Articles
+        }
+       }
+    let {title,decription,urlToImage} =this.props;
+    
+    return (
+      <div >
+      <div className="card" style={{width: "18rem"}}>
+  <img src={urlToImage} className="card-img-top" alt="..."/>
+  <div className="card-body">
+    <h5 className="card-title">{title}</h5>
+    <p className="card-text">{decription}</p>
+    <a href="/" className="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+      </div>
+    )
+  }
+}
+
+
+
+import React from 'react'
+import Axios from './components/NewsApp/Axios'
+import JokeFetcher from './components/NewsApp/JokeFetcher'
+import Navbar from './components/NewsApp/Navbar'
+import NewsFunctional from './components/NewsApp/NewsFunctional'
+
+
+export default function App() {
+  return (
+    <div>
+     <Axios/>
+     <JokeFetcher/>
+    </div>
+  )
+}
+

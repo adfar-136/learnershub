@@ -1,28 +1,41 @@
-import React, { useCallback } from 'react'
-import { useState } from 'react'
-const x = new Set()
+import React from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import About from './components/Routes/About'
+import Adfar from './components/Routes/Adfar'
+import Contact from './components/Routes/Contact'
+import Home from './components/Routes/Home'
+import "./App.css"
+import Users from './components/Routes/Users'
+import UserDetails from './components/Routes/UserDetails'
+import Error from './components/Routes/Error'
+import Search from './components/Routes/Search'
+import List from './components/Routes/List'
+import MainHome from './components/Routes/MainHome'
 export default function App() {
-  const [count,setCount] = useState(0)
-  const [number,setNumber] = useState(0)
-  const incrementCounter = useCallback(()=>{
-     setCount(count + 1)
-  },[count])
-  const decrementCounter = useCallback(()=>{
-    setCount(count - 1)
- },[count])
- const incrementNumber = useCallback(()=>{
-  setNumber(number + 1)
- },[number])
- x.add(incrementCounter)
- x.add(decrementCounter)
- x.add(incrementNumber)
- alert(x.size)
   return (
-    <div>
-      count : {count} 
-      <button onClick={incrementCounter}>Increment Counter</button>
-      <button onClick={decrementCounter}>Decrement Counter</button>
-      <button onClick={incrementNumber}>Increment Number : {number}</button>
-    </div>
+    <BrowserRouter>
+    <Routes>
+      {/* <Route path="/" element={<div>Home Page</div>}/>
+      <Route path="about" element={<div>about Page</div>}/>
+      <Route path ="contact" element={<div>Contact Page</div>}/>
+      <Route path ="adfar" element={<div>Adfar's Page</div>}/> */}
+      <Route path="/" element={<MainHome/>}>
+        <Route index element={<Home/>}/>
+        <Route path="about" element={<About/>}/>
+        <Route path ="/contact" element={<Contact/>}>
+            <Route path='search' element={<Search/>}/>
+            <Route path='list' element={<List/>}/>
+        </Route>
+      
+        <Route path ="adfar" element={<Adfar/>}/>
+        <Route path='users' element={<Users/>}/>
+        <Route path='users/:userID' element={<UserDetails/>}/>
+        <Route path='*' element={<Error/>}/>
+      </Route>
+      {/* <Route path='users/1' element={<UserDetails/>}/>
+      <Route path='users/2' element={<UserDetails/>}/>
+      <Route path='users/3' element={<UserDetails/>}/> */}
+    </Routes>
+    </BrowserRouter>
   )
 }

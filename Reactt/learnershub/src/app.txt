@@ -760,3 +760,156 @@ export default function App() {
   )
 }
 
+
+
+import React from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import About from './components/Routes/About'
+import Adfar from './components/Routes/Adfar'
+import Contact from './components/Routes/Contact'
+import Home from './components/Routes/Home'
+import "./App.css"
+import Users from './components/Routes/Users'
+import UserDetails from './components/Routes/UserDetails'
+import Error from './components/Routes/Error'
+import Search from './components/Routes/Search'
+import List from './components/Routes/List'
+import MainHome from './components/Routes/MainHome'
+export default function App() {
+  return (
+    <BrowserRouter>
+    <Routes>
+      {/* <Route path="/" element={<div>Home Page</div>}/>
+      <Route path="about" element={<div>about Page</div>}/>
+      <Route path ="contact" element={<div>Contact Page</div>}/>
+      <Route path ="adfar" element={<div>Adfar's Page</div>}/> */}
+      <Route path="/" element={<MainHome/>}>
+        <Route index element={<Home/>}/>
+        <Route path="about" element={<About/>}/>
+        <Route path ="/contact" element={<Contact/>}>
+            <Route path='search' element={<Search/>}/>
+            <Route path='list' element={<List/>}/>
+        </Route>
+      
+        <Route path ="adfar" element={<Adfar/>}/>
+        <Route path='users' element={<Users/>}/>
+        <Route path='users/:userID' element={<UserDetails/>}/>
+        <Route path='*' element={<Error/>}/>
+      </Route>
+      {/* <Route path='users/1' element={<UserDetails/>}/>
+      <Route path='users/2' element={<UserDetails/>}/>
+      <Route path='users/3' element={<UserDetails/>}/> */}
+    </Routes>
+    </BrowserRouter>
+  )
+}
+
+
+import React, { useState } from 'react'
+
+export default function App() {
+  const [name,setName] = useState('')
+  const [pwd,setPwd] = useState('')
+  const handle =()=>{
+    localStorage.setItem('Name',name)
+    localStorage.setItem('Password',pwd)
+  }
+  const remove=()=>{
+    localStorage.removeItem('Name')
+    localStorage.removeItem('Password')
+  }
+  return (
+    <div>
+      <h1>Name of the User :</h1>
+      <input type="text" placeholder='Name' onChange={(e)=>setName(e.target.value)} value={name} />
+      <h1>Password of the user :</h1>
+      <input type="password" placeholder='Password' onChange={(e)=>{setPwd(e.target.value)}} value={pwd} /> <br /><br />
+      <button onClick={handle}>Done </button>
+      <div>
+        {localStorage.getItem('Name') && (
+          <div>
+            Name :<h1> {localStorage.getItem('Name')}</h1>
+          </div>
+        )}
+        {localStorage.getItem('Password') && (
+          <div>
+            Password : <h1>{localStorage.getItem('Password')}</h1>
+          </div>
+        )}
+        <div>
+          <button onClick={remove}>Remove</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+import React from 'react'
+import { useState } from 'react'
+import useCounter from './components/custom-hooks/useCounter'
+import useList from './components/custom-hooks/useList'
+import Like from './components/Like'
+
+export default function App() {
+  const {count,increment,decrement} = useCounter()
+  const {list,push,pull} = useList()
+  const [todo,setTodo] = useState("")
+
+  const onsubmithandler=(event)=>{
+    event.preventDefault()
+    push(todo)
+    setTodo("")
+  }
+  return (
+    <>
+    <div>
+      <h1>{count}</h1>
+      <button onClick={increment}>Add</button>
+      <button onClick={decrement}>Sub</button>
+      <Like/>
+    </div>
+    <div>
+      <header>
+        <form onSubmit={onsubmithandler}>
+          <label> Add Todo</label>
+          <input type="text" value={todo} onChange={(e)=>{setTodo(e.target.value)}}/>
+          <button type='submit'>Add Todo</button>
+        </form>
+        <h3>
+          {list.map((listItem,index)=>{
+            return (
+              <div key={index}>
+            <li >{listItem}</li>
+            <button  onClick={()=>{pull(index)}}>Remove</button>
+            </div>
+            )
+          })}
+        </h3>
+      </header>
+    </div>
+    </>
+  )
+}
+
+
+
+
+import React, { lazy, Suspense } from 'react'
+const About = lazy(()=>import('./components/Lazy-Loading/About.js'))
+const Header = lazy(()=>import('./components/Lazy-Loading/Header.js'))
+
+export default function App() {
+  return (
+    <div>
+      <h1>Lazy loading component</h1>
+      <Suspense fallback={<h1>Araha hoon main.....</h1>}>
+      <About/>
+      
+      </Suspense>
+      <Suspense fallback={<h4>Jaraha hoon main...</h4>}>
+      <Header/>
+      </Suspense>
+      
+    </div>
+  )
+}

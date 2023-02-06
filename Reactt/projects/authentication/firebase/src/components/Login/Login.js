@@ -18,7 +18,7 @@ export default function Login() {
             return
         }
         signInWithEmailAndPassword(auth,values.email,values.pass).then((res)=>{
-            navigate("/profile")
+            navigate("/todo")
         }).catch((err)=>{
             setErrorMsg(err.message)
         })

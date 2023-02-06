@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Inputform from '../InputForm/Inputform'
 import styles from './Signup.module.css'
-import { Link} from 'react-router-dom'
-import { createUserWithEmailAndPassword} from 'firebase/auth'
+import { Link, useNavigate} from 'react-router-dom'
+import { createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
 import { auth } from '../../firebase'
 export default function Signup() {
  
@@ -11,7 +11,8 @@ export default function Signup() {
     email:"",
     pass:"",
   })
-
+  const [submitBtnDisabled,setSubmitBtnDisabled] = useState(false)
+  const navigate = useNavigate()
   const [errorMsg, setErrorMsg]=useState("")
  const handleSubmission=()=>{
   if(!values.name || !values.email || !values.pass){
@@ -19,9 +20,17 @@ export default function Signup() {
     return;
   }
   setErrorMsg("")
-  
+  setSubmitBtnDisabled(true)
   createUserWithEmailAndPassword(auth,values.email,values.pass).then((res)=>{
-      console.log(res)
+      const user = res.user;
+      console.log(user)
+      updateProfile(user,{
+        displayName:values.name
+      })
+      navigate("/login")
+  }).catch((err)=>{
+    setSubmitBtnDisabled(false)
+    setErrorMsg(err.message)
   })
   
  }
@@ -43,7 +52,7 @@ export default function Signup() {
         }/>
         <div className={styles.footer}>
             <b className={styles.error}>{errorMsg}</b>
-            <button onClick={handleSubmission}>SignUp</button>
+            <button onClick={handleSubmission} disabled={submitBtnDisabled}>SignUp</button>
             <p>Already have an account? {" "} 
             <span>
                 <Link to="/login">Login</Link>
